@@ -37,6 +37,7 @@ jobs:
         run: npm test
         env:
           HOST: localhost
+          REDIS_HOST: redis
           MAIN_PORT: 8090
           REDIS_SESSION_PORT: 6379
           SESSION_SECRET: da_secret
