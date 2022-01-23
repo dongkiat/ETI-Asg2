@@ -14,7 +14,7 @@ jobs:
     container: node:10.18-jessie
 
     services:
-      redis-session:
+      redis:
         image: redis
         ports:
           - 6379:6379
