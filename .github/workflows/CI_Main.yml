@@ -1,0 +1,39 @@
+name: CI Main
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: node:10.18-jessie
+
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Connect to Redis
+        run: node client.js
+        env:
+          REDIS_HOST: localhost
+          REDIS_PORT: 8099
+
+      - name: Run Tests
+        run: npm test
