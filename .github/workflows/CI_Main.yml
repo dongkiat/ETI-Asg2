@@ -18,7 +18,7 @@ jobs:
         image: redis
         ports:
           - 6379:6379
-        options: --entrypoint redis-server
+        run: redis-server
 
     steps:
       - name: Check out repository code
@@ -32,7 +32,7 @@ jobs:
         working-directory: ./main-interface
         run: npm test
         env:
-          HOST: 127.0.0.1
+          HOST: localhost
           MAIN_PORT: 8090
           REDIS_SESSION_PORT: 6379
           SESSION_SECRET: da_secret
