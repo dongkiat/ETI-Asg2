@@ -32,7 +32,7 @@ jobs:
         working-directory: ./main-interface
         run: npm test
         env:
-          HOST: localhost
+          HOST: 127.0.0.1
           MAIN_PORT: 8090
           REDIS_SESSION_PORT: 6379
           SESSION_SECRET: da_secret
