@@ -142,4 +142,4 @@ function getCurrentDateTime() {
   return formattedDateTime;
 }
 
-module.exports = { app, mysqlTutorConnection, redisClient };
+module.exports = { app, redisClient };
