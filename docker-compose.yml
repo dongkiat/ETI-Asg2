@@ -1,0 +1,23 @@
+# Lim Dong Kiat - EduFi 3.1
+
+services:
+  session-db:
+    container_name: redis-session-db
+    image: redis
+    ports: 8099:6379
+    restart: always
+  admin-db:
+    container_name: redis-admin-db
+    image: redis
+    ports: 8098:6379
+    restart: always
+  main-interface:
+    container_name: main-interface
+    image: dongkiatnp/main-interface:0.1
+    ports: 8090:8090
+    environment:
+      - HOST=localhost
+      - MAIN_PORT=8090
+      - REDIS_SESSION_PORT=8099
+      - SESSION_SECRET=da_secret
+    restart: always
