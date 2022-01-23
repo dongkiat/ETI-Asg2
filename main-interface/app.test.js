@@ -7,6 +7,7 @@ describe("Get index page (/)", () => {
   });
 
   afterAll((done) => {
+    app.mysqlTutorConnection.end(done);
     app.redisClient.disconnect(done);
   });
 });

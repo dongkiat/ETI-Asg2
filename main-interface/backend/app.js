@@ -3,6 +3,34 @@ if (process.env.NODE_ENV !== "production") {
   const { reset } = require("nodemon");
 }
 
+const mysql = require("mysql");
+const mysqlTutorConnection = mysql.createConnection({
+  host: process.env.HOST,
+  port: process.env.MYSQL_TUTOR_PORT,
+  user: process.env.MYSQL_TUTOR_USERNAME,
+  password: process.env.MYSQL_TUTOR_PASSWORD,
+  database: "tutors",
+});
+
+mysqlTutorConnection.connect(function (err) {
+  if (err) {
+    console.error(
+      "- Could not establish a connection with mysql tutor server. " +
+        err +
+        " . (" +
+        getCurrentDateTime() +
+        ") -"
+    );
+  }
+  console.log(
+    "- Connected to mysql tutor server successfully on port " +
+      process.env.MYSQL_TUTOR_PORT +
+      " . (" +
+      getCurrentDateTime() +
+      ") -"
+  );
+});
+
 const express = require("express");
 const session = require("express-session");
 
@@ -142,4 +170,4 @@ function getCurrentDateTime() {
   return formattedDateTime;
 }
 
-module.exports = { app, redisClient };
+module.exports = { app, mysqlTutorConnection, redisClient };
