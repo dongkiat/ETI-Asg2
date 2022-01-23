@@ -1,0 +1,119 @@
+body {
+  height: 100vh;
+}
+
+/* Login --------------------------------------------------- */
+
+.title {
+  display: inline-block;
+  position: relative;
+}
+
+.title:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.title:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.login-form {
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-input {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15) !important;
+  transition: 0.5s;
+}
+
+.login-input:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+.login-user-toggle {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) !important;
+  transition: 0.5s;
+}
+
+.login-btn {
+  width: 90px;
+  padding: 4px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), inset 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.5s;
+}
+
+.login-btn:hover {
+  background-color: #0d6efd;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), inset 0 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 576px) {
+  .login-input {
+    border-radius: 30px;
+  }
+}
+
+/* Index -------------------------------------------------- */
+
+.nav-card {
+  display: flex;
+  width: 200px;
+  height: 100px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1) !important;
+  transition: 0.5s;
+}
+
+.nav-card:hover {
+  cursor: pointer;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+.logout-btn {
+  width: 90px;
+  padding: 4px;
+  border-style: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 4px 0 rgba(0, 0, 0, 0.1);
+  transition: 0.5s;
+}
+
+.logout-btn:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), inset 0 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 576px) {
+  .login-input {
+    border-radius: 30px;
+  }
+}
+
+/* 
+xs: 0,
+sm: 576px,
+md: 768px,
+lg: 992px,
+xl: 1200px,
+xxl: 1400px
+*/

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="script" href="/js/bootstrap.min.js" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="icon" type="image/x-icon" href="brutus-color.svg" />
+    <title>EduFi</title>
+  </head>
+
+  <body>
+    <div class="container h-100">
+      <div
+        class="d-flex flex-column align-items-center justify-content-center h-100"
+      >
+        <h1 class="title">EduFi</h1>
+        <div class="row mt-4">
+          <div class="col">
+            <div
+              class="nav-card"
+              onclick="location.href='http://localhost:8020/biddingDashboard';"
+            >
+              Bidding Dashboard
+            </div>
+          </div>
+          <div class="col">
+            <div
+              class="nav-card"
+              onclick="location.href='http://localhost:8017/modules';"
+            >
+              Modules
+            </div>
+          </div>
+          <div class="col">
+            <div
+              class="nav-card"
+              onclick="location.href='http://localhost:8130/feedback';"
+            >
+              Ratings and Comments Dashboard
+            </div>
+          </div>
+        </div>
+        <form action="/logout" method="POST" class="mt-5">
+          <input type="submit" value="Logout" class="logout-btn" />
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

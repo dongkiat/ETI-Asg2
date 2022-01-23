@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="script" href="/js/bootstrap.min.js" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="icon" type="image/x-icon" href="brutus-color.svg" />
+    <title>EduFi Admin</title>
+  </head>
+
+  <body>
+    <div class="container h-100">
+      <div
+        class="d-flex flex-column align-items-center justify-content-center h-100"
+      >
+        <h1 class="title">EduFi Admin</h1>
+        <form action="/admin/login" method="POST" class="mt-4 login-form">
+          <input
+            type="test"
+            class="form-control shadow-none login-input"
+            id="userID"
+            name="userID"
+            placeholder="user ID"
+          />
+          <input
+            type="password"
+            class="form-control shadow-none login-input mt-3"
+            id="password"
+            name="password"
+            placeholder="password"
+          />
+          <div class="btn-group mt-3 d-flex" role="group">
+            <input
+              type="radio"
+              class="btn-check"
+              name="usertype"
+              id="student-account"
+              value="student"
+              autocomplete="off"
+              checked
+            />
+            <label
+              class="btn btn-outline-primary shadow-none login-user-toggle"
+              for="student-account"
+              >Student</label
+            >
+            <input
+              type="radio"
+              class="btn-check"
+              name="usertype"
+              id="tutor-account"
+              value="tutor"
+              autocomplete="off"
+            />
+            <label
+              class="btn btn-outline-primary shadow-none login-user-toggle"
+              for="tutor-account"
+              >Tutor</label
+            >
+          </div>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary login-btn mt-4">
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
