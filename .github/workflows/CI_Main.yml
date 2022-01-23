@@ -30,12 +30,6 @@ jobs:
         working-directory: ./main-interface
         run: npm ci
 
-      - name: Connect to Redis
-        run: node client.js
-        env:
-          REDIS_HOST: localhost
-          REDIS_PORT: 8099
-
       - name: Run Tests
         working-directory: ./main-interface
         run: npm test
