@@ -17,7 +17,7 @@ jobs:
       redis-session:
         image: redis
         ports:
-          - 8099:6379
+          - 6379:6379
         options: --entrypoint redis-server
 
     steps:
@@ -34,7 +34,7 @@ jobs:
         env:
           HOST: localhost
           MAIN_PORT: 8090
-          REDIS_SESSION_PORT: 8099
+          REDIS_SESSION_PORT: 6379
           SESSION_SECRET: da_secret
           STUDENT_ADMIN_PATH: 8150
           TUTOR_ADMIN_PATH: 8010
