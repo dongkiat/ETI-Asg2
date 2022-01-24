@@ -1,5 +1,7 @@
 # Lim Dong Kiat - EduFi 3.1
 
+version: "3.8"
+
 services:
   session-db:
     container_name: redis-session-db
