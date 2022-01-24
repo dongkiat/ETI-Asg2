@@ -6,20 +6,20 @@ services:
   session-db:
     container_name: redis-session-db
     image: redis:5.0.7
-    command: redis-server
+    command: redis-server --port 8099
     ports:
-      - 8099:6379
+      - 8099:8099
     restart: always
   admin-db:
     container_name: redis-admin-db
     image: redis:5.0.7
-    command: redis-server
+    command: redis-server --port 8098
     ports:
-      - 8098:6379
+      - 8098:8098
     restart: always
   main-interface:
     container_name: main-interface
-    image: dongkiatnp/edufi-main-interface:0.1
+    image: dongkiatnp/edufi-main-interface:0.2
     ports:
       - 8090:8090
     environment:
@@ -34,4 +34,6 @@ services:
       - MYSQL_TUTOR_PORT=8022
       - MYSQL_TUTOR_USERNAME=user
       - MYSQL_TUTOR_PASSWORD=password
+      - STUDENT_ADMIN_PATH=8150
+      - TUTOR_ADMIN_PATH=8010
     restart: always

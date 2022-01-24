@@ -17,6 +17,6 @@ WORKDIR /app
 
 COPY --from=build /app .
 
-EXPOSE 3000
+EXPOSE 8090
 
 CMD [ "backend/server.js" ]
