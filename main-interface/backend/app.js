@@ -37,8 +37,11 @@ const session = require("express-session");
 const redis = require("redis");
 const redisStore = require("connect-redis")(session);
 const redisClient = redis.createClient({
-  host: process.env.REDIS_SESSION_HOST,
-  port: process.env.REDIS_SESSION_PORT,
+  url:
+    "redis://" +
+    process.env.REDIS_SESSION_HOST +
+    ":" +
+    process.env.REDIS_SESSION_PORT,
   legacyMode: true,
 });
 
