@@ -5,13 +5,15 @@ version: "3.8"
 services:
   session-db:
     container_name: redis-session-db
-    image: redis
+    image: redis:5.0.7
+    command: redis-server
     ports:
       - 8099:6379
     restart: always
   admin-db:
     container_name: redis-admin-db
-    image: redis
+    image: redis:5.0.7
+    command: redis-server
     ports:
       - 8098:6379
     restart: always
@@ -23,7 +25,7 @@ services:
     environment:
       - HOST=localhost
       - MAIN_PORT=8090
-      - REDIS_SESSION_HOST=localhost
+      - REDIS_SESSION_HOST=redis-session-db
       - REDIS_SESSION_PORT=8099
       - SESSION_SECRET=da_secret
       - MYSQL_STUDENT_PORT=3306
