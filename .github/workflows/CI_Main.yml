@@ -14,15 +14,32 @@ jobs:
     container: node:10.18-jessie
 
     services:
-      redis:
-        image: redis
+      redis-session:
+        image: redis:5.0.7
         options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
         ports:
-          - 6379:6379
+          - 8099:6379
+      mysql-tutor:
+        image: mysql:8.0.27
+        env:
+          MYSQL_DATABASE: tutors
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 8022:3306
+        options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
+      mysql-student:
+        image: mysql:8.0.27
+        env:
+          MYSQL_DATABASE: students
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
 
     steps:
       - name: Check out repository code
@@ -39,7 +56,15 @@ jobs:
           HOST: localhost
           MAIN_PORT: 8090
           REDIS_SESSION_HOST: localhost
-          REDIS_SESSION_PORT: 6379
+          REDIS_SESSION_PORT: 8099
           SESSION_SECRET: da_secret
+          MYSQL_TUTOR_PORT: 8022
+          MYSQL_TUTOR_USERNAME: user
+          MYSQL_TUTOR_PASSWORD: password
+          MYSQL_TUTOR_DB: tutors
+          MYSQL_STUDENT_PORT: 3306
+          MYSQL_STUDENT_USERNAME: user
+          MYSQL_STUDENT_PASSWORD: password
+          MYSQL_STUDENT_DB: students
           STUDENT_ADMIN_PATH: 8150
           TUTOR_ADMIN_PATH: 8010
