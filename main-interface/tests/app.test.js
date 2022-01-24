@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("./backend/app");
+const app = require("../backend/app");
 
 describe("Get index page (/)", () => {
   test("responds with a 200 status code", (done) => {
@@ -7,7 +7,8 @@ describe("Get index page (/)", () => {
   });
 
   afterAll((done) => {
-    app.mysqlTutorConnection.end(done);
     app.redisClient.disconnect(done);
+    app.mysqlTutorConnection.end(done);
+    app.mysqlStudentConnection.end(done);
   });
 });
