@@ -1,70 +1,17 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
-  const { reset } = require("nodemon");
 }
 
-const mysql = require("mysql");
-const mysqlTutorConnection = mysql.createConnection({
-  host: process.env.HOST,
-  port: process.env.MYSQL_TUTOR_PORT,
-  user: process.env.MYSQL_TUTOR_USERNAME,
-  password: process.env.MYSQL_TUTOR_PASSWORD,
-  database: "tutors",
-});
+const util = require("./util");
 
-mysqlTutorConnection.connect(function (err) {
-  if (err) {
-    console.error(
-      "- Could not establish a connection with mysql tutor server. " +
-        err +
-        " . (" +
-        getCurrentDateTime() +
-        ") -"
-    );
-  }
-  console.log(
-    "- Connected to mysql tutor server successfully on port " +
-      process.env.MYSQL_TUTOR_PORT +
-      " . (" +
-      getCurrentDateTime() +
-      ") -"
-  );
-});
+const mysqlTutorConnection = require("./mysql-connection").tutorConnection;
+const mysqlStudentConnection = require("./mysql-connection").studentConnection;
 
 const express = require("express");
 const session = require("express-session");
 
-const redis = require("redis");
 const redisStore = require("connect-redis")(session);
-const redisClient = redis.createClient({
-  url:
-    "redis://" +
-    process.env.REDIS_SESSION_HOST +
-    ":" +
-    process.env.REDIS_SESSION_PORT,
-  legacyMode: true,
-});
-
-redisClient.connect();
-
-redisClient.on("error", function (err) {
-  console.error(
-    "- Could not establish a connection with redis session server. " +
-      err +
-      " . (" +
-      getCurrentDateTime() +
-      ") -"
-  );
-});
-redisClient.on("connect", function (err) {
-  console.log(
-    "- Connected to redis session server successfully on port " +
-      process.env.REDIS_SESSION_PORT +
-      " . (" +
-      getCurrentDateTime() +
-      ") -"
-  );
-});
+const redisClient = require("./redis-client");
 
 const app = express();
 
@@ -112,7 +59,7 @@ app.post("/login", (req, res) => {
     "- User Logged In . New Session Created . SID:" +
       req.sessionID +
       " . (" +
-      getCurrentDateTime() +
+      util.getCurrentDateTime() +
       ") -"
   );
   res.redirect("/");
@@ -128,7 +75,7 @@ app.post("/logout", (req, res) => {
       "- User Logged Out . Session Destroyed . SID:" +
         req.sessionID +
         " . (" +
-        getCurrentDateTime() +
+        util.getCurrentDateTime() +
         ") -"
     );
     res.redirect("/");
@@ -155,22 +102,9 @@ app.post("/admin/login", (req, res) => {
   }
 });
 
-// Utility functions -----------------------------------------------------------
-
-function getCurrentDateTime() {
-  const now = new Date();
-
-  const year = now.getFullYear();
-  const month = ("0" + (now.getMonth() + 1)).slice(-2);
-  const day = ("0" + now.getDate()).slice(-2);
-
-  const hour = ("0" + now.getHours()).slice(-2);
-  const minute = ("0" + now.getMinutes()).slice(-2);
-  const second = ("0" + now.getSeconds()).slice(-2);
-
-  const formattedDateTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-
-  return formattedDateTime;
-}
-
-module.exports = { app, mysqlTutorConnection, redisClient };
+module.exports = {
+  app,
+  mysqlTutorConnection,
+  mysqlStudentConnection,
+  redisClient,
+};
