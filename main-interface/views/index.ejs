@@ -22,7 +22,7 @@
           <div class="col">
             <div
               class="nav-card"
-              onclick="location.href='http://localhost:8020/biddingDashboard';"
+              onclick="location.href='http://<%= process.env.HOST %>:<%= process.env.BIDDING_DASHBOARD_PATH %>';"
             >
               Bidding Dashboard
             </div>
@@ -30,7 +30,7 @@
           <div class="col">
             <div
               class="nav-card"
-              onclick="location.href='http://localhost:8017/modules';"
+              onclick="location.href='http://<%= process.env.HOST %>:<%= process.env.MODULES_PATH %>';"
             >
               Modules
             </div>
@@ -38,7 +38,7 @@
           <div class="col">
             <div
               class="nav-card"
-              onclick="location.href='http://localhost:8130/feedback';"
+              onclick="location.href='http://<%= process.env.HOST %>:<%= process.env.STUDENT_RATINGS_AND_COMMENTS_DASHBOARD_PATH %>';"
             >
               Ratings and Comments Dashboard
             </div>
