@@ -19,30 +19,16 @@
       >
         <h1 class="title">EduFi</h1>
         <div class="row mt-4">
+          <% for (const key of Object.keys(navItems)){ %>
           <div class="col">
             <div
               class="nav-card"
-              onclick="location.href='http://<%= process.env.HOST %>:<%= process.env.BIDDING_DASHBOARD_PATH %>';"
+              onclick="location.href='http://<%= process.env.HOST %>:<%= navItems[key] %>';"
             >
-              Bidding Dashboard
+              <%= key %>
             </div>
           </div>
-          <div class="col">
-            <div
-              class="nav-card"
-              onclick="location.href='http://<%= process.env.HOST %>:<%= process.env.MODULES_PATH %>';"
-            >
-              Modules
-            </div>
-          </div>
-          <div class="col">
-            <div
-              class="nav-card"
-              onclick="location.href='http://<%= process.env.HOST %>:<%= process.env.STUDENT_RATINGS_AND_COMMENTS_DASHBOARD_PATH %>';"
-            >
-              Ratings and Comments Dashboard
-            </div>
-          </div>
+          <% } %>
         </div>
         <form action="/logout" method="POST" class="mt-5">
           <input type="submit" value="Logout" class="logout-btn" />

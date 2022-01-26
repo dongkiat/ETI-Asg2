@@ -10,6 +10,18 @@ const bodyParser = require("body-parser");
 
 const redisStore = require("connect-redis")(session);
 
+const studentNavItems = {
+  Modules: "8017/modules",
+  "Bidding Dashboard": "8020/biddingDashboard",
+  "Ratings and Comments Dashboard": "8130/feedback",
+};
+
+const tutorNavItems = {
+  Modules: "8017/modules",
+  "Marks Dashboard": "8120/api/V1/marksdashboard",
+  "Ratings and Comments Dashboard": "8190/dashboard",
+};
+
 module.exports = function (mysqlHandler, redisHandler) {
   const app = express();
   app.use(bodyParser.json());
@@ -41,9 +53,16 @@ module.exports = function (mysqlHandler, redisHandler) {
 
   // Get Main Login page
   app.get("/", (req, res) => {
-    if (req.session.userID) {
+    if (req.session.userID && req.session.usertype) {
+      var navItems;
+      if (req.session.usertype == "student") {
+        navItems = studentNavItems;
+      } else if (req.session.usertype == "tutor") {
+        navItems = tutorNavItems;
+      }
       res.render("index.ejs", {
         usertype: req.session.usertype,
+        navItems: navItems,
       });
     } else {
       res.render("login.ejs");
@@ -64,7 +83,6 @@ module.exports = function (mysqlHandler, redisHandler) {
           req.body.usertype
         )
       ) {
-        console.log("HELLO");
         req.session.userID = req.body.userID;
         req.session.usertype = req.body.usertype;
         console.log(
@@ -105,14 +123,16 @@ module.exports = function (mysqlHandler, redisHandler) {
 
   // Admin login request
   app.post("/admin/login", (req, res) => {
-    if (req.body.usertype == "student") {
-      res.redirect(
-        "http://" + process.env.HOST + ":" + process.env.STUDENT_ADMIN_PATH
-      );
-    } else if (req.body.usertype == "tutor") {
-      res.redirect(
-        "http://" + process.env.HOST + ":" + process.env.TUTOR_ADMIN_PATH
-      );
+    if (redisHandler.authenticateAdmin(req.body.userID, req.body.password)) {
+      if (req.body.usertype == "student") {
+        res.redirect(
+          "http://" + process.env.HOST + ":" + process.env.STUDENT_ADMIN_PATH
+        );
+      } else if (req.body.usertype == "tutor") {
+        res.redirect(
+          "http://" + process.env.HOST + ":" + process.env.TUTOR_ADMIN_PATH
+        );
+      }
     }
     res.redirect("/admin");
   });
