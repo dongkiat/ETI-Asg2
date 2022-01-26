@@ -5,6 +5,8 @@ if (process.env.NODE_ENV !== "production") {
 const util = require("./util");
 
 const redis = require("redis");
+const session = require("express-session");
+const redisStore = require("connect-redis")(session);
 
 // Session Client -----------------------------------------------------------
 const redisSessionClient = redis.createClient({
@@ -40,6 +42,8 @@ redisSessionClient.on("error", function (err) {
       ") -"
   );
 });
+
+sessionStore = new redisStore({ client: redisSessionClient });
 
 // Admin Client -------------------------------------------------------------
 const redisAdminClient = redis.createClient({
@@ -82,4 +86,4 @@ function authenticateAdmin(userID, password) {
   return authenticated;
 }
 
-module.exports = { redisSessionClient, authenticateAdmin };
+module.exports = { redisSessionClient, sessionStore, authenticateAdmin };

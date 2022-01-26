@@ -5,10 +5,8 @@ if (process.env.NODE_ENV !== "production") {
 const util = require("./util");
 
 const express = require("express");
-const session = require("express-session");
 const bodyParser = require("body-parser");
-
-const redisStore = require("connect-redis")(session);
+const session = require("express-session");
 
 const studentNavItems = {
   Modules: "8017/modules",
@@ -37,9 +35,7 @@ module.exports = function (mysqlHandler, redisHandler) {
   app.use(
     session({
       secret: process.env.SESSION_SECRET,
-      store: new redisStore({
-        client: redisHandler.redisSessionClient,
-      }),
+      store: redisHandler.sessionStore,
       saveUninitialized: false,
       resave: false,
       rolling: true,
