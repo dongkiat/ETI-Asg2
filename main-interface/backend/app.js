@@ -10,7 +10,7 @@ const session = require("express-session");
 
 const studentNavItems = {
   Modules: "8017/modules",
-  "Bidding Dashboard": "8020/biddingDashboard",
+  "Bidding Dashboard": "8220/biddingDashboard",
   "Ratings and Comments Dashboard": "8130/feedback",
 };
 

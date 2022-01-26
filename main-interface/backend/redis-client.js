@@ -43,7 +43,7 @@ redisSessionClient.on("error", function (err) {
   );
 });
 
-sessionStore = new redisStore({ client: redisSessionClient });
+const sessionStore = new redisStore({ client: redisSessionClient });
 
 // Admin Client -------------------------------------------------------------
 const redisAdminClient = redis.createClient({
@@ -86,4 +86,4 @@ function authenticateAdmin(userID, password) {
   return authenticated;
 }
 
-module.exports = { redisSessionClient, sessionStore, authenticateAdmin };
+module.exports = { sessionStore, authenticateAdmin };
