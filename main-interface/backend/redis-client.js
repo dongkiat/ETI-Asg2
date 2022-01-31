@@ -1,4 +1,5 @@
 const util = require("./util");
+const { promisify } = require("util");
 
 const redis = require("redis");
 const session = require("express-session");
@@ -76,10 +77,17 @@ redisAdminClient.on("error", function (err) {
   );
 });
 
-function authenticateAdmin(userID, password) {
-  var authenticated = true;
+async function authenticateAdmin(userID, password) {
+  if (process.env.AUTH_DISABLED == "true") {
+    return true;
+  }
 
-  return authenticated;
+  const xhget = promisify(redisAdminClient.HGET).bind(redisAdminClient);
+
+  if (password == (await xhget(userID, "password"))) {
+    return true;
+  }
+  return false;
 }
 
 module.exports = { sessionStore, authenticateAdmin };
