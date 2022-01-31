@@ -114,8 +114,13 @@ module.exports = function (mysqlHandler, redisHandler) {
   });
 
   // Admin login request
-  app.post("/admin/login", (req, res) => {
-    if (redisHandler.authenticateAdmin(req.body.userID, req.body.password)) {
+  app.post("/admin/login", async (req, res) => {
+    const authenticated = await redisHandler.authenticateAdmin(
+      req.body.userID,
+      req.body.password
+    );
+
+    if (authenticated) {
       if (req.body.usertype == "student") {
         res.redirect(
           "http://" + process.env.HOST + ":" + process.env.STUDENT_ADMIN_PATH
@@ -130,6 +135,31 @@ module.exports = function (mysqlHandler, redisHandler) {
   });
 
   // Others --------------------------------------------------------------------
+
+  // Get session user details
+  app.get("/session", (req, res) => {
+    if (req.session.userID && req.session.usertype) {
+      sessionUserDetails = {
+        userID: req.session.userID,
+        usertype: req.session.usertype,
+      };
+      res.end(JSON.stringify(sessionUserDetails));
+      console.log(
+        "- Session User Details Retrieval Success . SID:" +
+          req.sessionID +
+          " . (" +
+          util.getCurrentDateTime() +
+          ") -"
+      );
+    } else {
+      res.sendStatus(404);
+      console.log(
+        "- Session User Details Retrieval Failed . Session Not Found . (" +
+          util.getCurrentDateTime() +
+          ") -"
+      );
+    }
+  });
 
   // Capture invalid routes
   app.get("*", (req, res) => {
