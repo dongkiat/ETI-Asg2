@@ -82,9 +82,9 @@ async function authenticateAdmin(userID, password) {
     return true;
   }
 
-  const xhget = promisify(redisAdminClient.HGET).bind(redisAdminClient);
+  const hget = promisify(redisAdminClient.HGET).bind(redisAdminClient);
 
-  if (password == (await xhget(userID, "password"))) {
+  if (password == (await hget(userID, "password"))) {
     return true;
   }
   return false;

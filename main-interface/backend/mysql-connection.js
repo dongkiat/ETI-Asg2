@@ -1,4 +1,5 @@
 const util = require("./util");
+const { promisify } = require("util");
 
 const mysql = require("mysql");
 
@@ -58,16 +59,67 @@ tutorConnection.connect(function (err) {
   }
 });
 
-function authenticateUser(userID, password, usertype) {
-  var authenticated = false;
-
-  if (usertype == "student") {
-    authenticated = true;
-  } else if (usertype == "tutor") {
-    authenticated = true;
+async function authenticateUser(userID, password, usertype) {
+  if (process.env.AUTH_DISABLED == "true") {
+    return { valid: true };
   }
 
-  return authenticated;
+  const studentQuery = promisify(studentConnection.query).bind(
+    studentConnection
+  );
+  const tutorQuery = promisify(tutorConnection.query).bind(tutorConnection);
+
+  if (usertype == "student") {
+    try {
+      const result = await studentQuery(
+        "SELECT Password FROM students WHERE StudentID=" + mysql.escape(userID)
+      );
+      if (result.length > 0) {
+        if (password == result[0].Password) {
+          return { valid: true };
+        } else {
+          return { valid: false, error: "Invalid password" };
+        }
+      } else {
+        return { valid: false, error: "Invalid userID" };
+      }
+    } catch (err) {
+      console.error(
+        "- Query error with mysql student server. " +
+          err +
+          " . (" +
+          util.getCurrentDateTime() +
+          ") -"
+      );
+      console.log(err);
+    }
+  } else if (usertype == "tutor") {
+    try {
+      const result = await tutorQuery(
+        "SELECT Password FROM tutor WHERE TutorID=" + mysql.escape(userID)
+      );
+      if (result.length > 0) {
+        if (password == result[0].Password) {
+          return { valid: true };
+        } else {
+          return { valid: false, error: "Invalid password" };
+        }
+      } else {
+        return { valid: false, error: "Invalid userID" };
+      }
+    } catch (err) {
+      console.error(
+        "- Query error with mysql tutor server. " +
+          err +
+          " . (" +
+          util.getCurrentDateTime() +
+          ") -"
+      );
+      console.log(err);
+    }
+  }
+
+  return { valid: false, error: "system error" };
 }
 
 module.exports = { authenticateUser };

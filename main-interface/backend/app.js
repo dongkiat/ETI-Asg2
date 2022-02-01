@@ -1,5 +1,6 @@
 const util = require("./util");
 
+const url = require("url");
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
@@ -57,24 +58,26 @@ module.exports = function (mysqlHandler, redisHandler) {
         navItems: navItems,
       });
     } else {
-      res.render("login.ejs");
+      var error = req.query.error;
+      res.render("login.ejs", {
+        error: error,
+      });
     }
   });
 
   // Login request
-  app.post("/login", (req, res) => {
+  app.post("/login", async (req, res) => {
     if (
       ![req.body.userID, req.body.password, req.body.usertype].includes(
         undefined
       )
     ) {
-      if (
-        mysqlHandler.authenticateUser(
-          req.body.userID,
-          req.body.password,
-          req.body.usertype
-        )
-      ) {
+      const authentication = await mysqlHandler.authenticateUser(
+        req.body.userID,
+        req.body.password,
+        req.body.usertype
+      );
+      if (authentication.valid) {
         req.session.userID = req.body.userID;
         req.session.usertype = req.body.usertype;
         console.log(
@@ -84,9 +87,18 @@ module.exports = function (mysqlHandler, redisHandler) {
             util.getCurrentDateTime() +
             ") -"
         );
+        res.redirect("/");
+      } else {
+        res.redirect(
+          url.format({
+            pathname: "/",
+            query: {
+              error: authentication.error,
+            },
+          })
+        );
       }
     }
-    res.redirect("/");
   });
 
   // Logout request

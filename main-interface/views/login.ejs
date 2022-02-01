@@ -19,20 +19,28 @@
       >
         <h1 class="title">EduFi</h1>
         <form action="/login" method="POST" class="mt-4 login-form">
-          <input
-            type="test"
-            class="form-control shadow-none login-input"
-            id="userID"
-            name="userID"
-            placeholder="user ID"
-          />
-          <input
-            type="password"
-            class="form-control shadow-none login-input mt-3"
-            id="password"
-            name="password"
-            placeholder="password"
-          />
+          <input type="text" class="form-control shadow-none login-input <%=
+          (locals.error == "Invalid userID") ? "is-invalid" : "" %>" id="userID"
+          name="userID" placeholder="user ID" aria-describedby="userIDFeedback"
+          required />
+          <!--  -->
+          <% if (locals.error == "Invalid userID") { %>
+          <div id="userIDFeedback" class="invalid-feedback">
+            <%= locals.error %>
+          </div>
+          <% } %>
+          <!--  -->
+          <input type="password" class="form-control shadow-none login-input
+          mt-3 <%= (locals.error == "Invalid password") ? "is-invalid" : "" %>"
+          id="password" name="password" placeholder="password"
+          aria-describedby="passwordFeedback" required />
+          <!--  -->
+          <% if (locals.error == "Invalid password") { %>
+          <div id="passwordFeedback" class="invalid-feedback">
+            <%= locals.error %>
+          </div>
+          <% } %>
+
           <div class="btn-group mt-3 d-flex" role="group">
             <input
               type="radio"
