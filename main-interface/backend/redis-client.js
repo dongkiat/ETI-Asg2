@@ -57,7 +57,10 @@ const redisAdminClient = redis.createClient({
 
 redisAdminClient.connect();
 
+var adminClientConnected = false;
+
 redisAdminClient.on("connect", function (err) {
+  adminClientConnected = true;
   console.log(
     "- Connected to redis admin server successfully on port " +
       process.env.REDIS_ADMIN_PORT +
@@ -68,6 +71,7 @@ redisAdminClient.on("connect", function (err) {
 });
 
 redisAdminClient.on("error", function (err) {
+  adminClientConnected = false;
   console.error(
     "- Could not establish a connection with redis admin server. " +
       err +
@@ -82,9 +86,14 @@ async function authenticateAdmin(userID, password) {
     return { valid: true };
   }
 
+  if (adminClientConnected == false) {
+    return { valid: false, error: "System error" };
+  }
+
   const hget = promisify(redisAdminClient.HGET).bind(redisAdminClient);
 
   const result = await hget(userID, "password");
+
   if (result != null) {
     if (password == result) {
       return { valid: true };

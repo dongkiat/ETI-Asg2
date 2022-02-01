@@ -72,7 +72,40 @@
             </button>
           </div>
         </form>
+
+        <% if (error == "System error") {%>
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+          <div
+            id="errorToast"
+            class="toast show"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div class="toast-header bg-danger text-white">
+              <span class="me-auto"
+                ><i class="bi bi-exclamation-circle"></i>
+                <strong>Error</strong></span
+              >
+              <button
+                type="button"
+                id="toastbtn"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="toast"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="toast-body bg-danger text-white"><%= error %></div>
+          </div>
+        </div>
+        <% } %>
       </div>
     </div>
+
+    <script>
+      document.getElementById("toastbtn").onclick = function () {
+        document.getElementById("errorToast").classList.remove("show");
+      };
+    </script>
   </body>
 </html>

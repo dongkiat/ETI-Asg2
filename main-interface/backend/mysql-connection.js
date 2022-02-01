@@ -119,7 +119,7 @@ async function authenticateUser(userID, password, usertype) {
     }
   }
 
-  return { valid: false, error: "system error" };
+  return { valid: false, error: "System error" };
 }
 
 module.exports = { authenticateUser };
