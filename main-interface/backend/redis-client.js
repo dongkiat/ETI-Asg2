@@ -79,15 +79,21 @@ redisAdminClient.on("error", function (err) {
 
 async function authenticateAdmin(userID, password) {
   if (process.env.AUTH_DISABLED == "true") {
-    return true;
+    return { valid: true };
   }
 
   const hget = promisify(redisAdminClient.HGET).bind(redisAdminClient);
 
-  if (password == (await hget(userID, "password"))) {
-    return true;
+  const result = await hget(userID, "password");
+  if (result != null) {
+    if (password == result) {
+      return { valid: true };
+    } else {
+      return { valid: false, error: "Invalid password" };
+    }
+  } else {
+    return { valid: false, error: "Invalid userID" };
   }
-  return false;
 }
 
 module.exports = { sessionStore, authenticateAdmin };

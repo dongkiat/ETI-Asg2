@@ -122,17 +122,20 @@ module.exports = function (mysqlHandler, redisHandler) {
 
   // Get Admin Login page
   app.get("/admin", (req, res) => {
-    res.render("admin-login.ejs");
+    var error = req.query.error;
+    res.render("admin-login.ejs", {
+      error: error,
+    });
   });
 
   // Admin login request
   app.post("/admin/login", async (req, res) => {
-    const authenticated = await redisHandler.authenticateAdmin(
+    const authentication = await redisHandler.authenticateAdmin(
       req.body.userID,
       req.body.password
     );
 
-    if (authenticated) {
+    if (authentication.valid) {
       if (req.body.usertype == "student") {
         res.redirect(
           "http://" + process.env.HOST + ":" + process.env.STUDENT_ADMIN_PATH
@@ -142,8 +145,16 @@ module.exports = function (mysqlHandler, redisHandler) {
           "http://" + process.env.HOST + ":" + process.env.TUTOR_ADMIN_PATH
         );
       }
+    } else {
+      res.redirect(
+        url.format({
+          pathname: "/admin",
+          query: {
+            error: authentication.error,
+          },
+        })
+      );
     }
-    res.redirect("/admin");
   });
 
   // Others --------------------------------------------------------------------
