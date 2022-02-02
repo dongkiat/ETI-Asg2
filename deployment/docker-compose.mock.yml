@@ -1,0 +1,61 @@
+# Lim Dong Kiat - EduFi 3.1
+
+version: "3.3"
+
+services:
+  user-db:
+    container_name: edufi-user-db
+    image: dongkiatnp/edufi-user-db:1.0.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 8097:3306
+    volumes:
+      - db-data:/var/lib/mysql
+    restart: always
+  session-db:
+    container_name: redis-session-db
+    image: redis:5.0.7
+    command: redis-server --port 8099
+    ports:
+      - 8099:8099
+    restart: always
+  admin-db:
+    container_name: redis-admin-db
+    image: redis:5.0.7
+    command: redis-server --port 8098
+    ports:
+      - 8098:8098
+    restart: always
+  main-interface:
+    container_name: main-interface
+    image: dongkiatnp/edufi-main-interface:0.3.0
+    ports:
+      - 8090:8090
+    environment:
+      - HOST=10.31.11.11
+      - MAIN_PORT=8090
+      - AUTH_DISABLED=false
+
+      - REDIS_SESSION_HOST=redis-session-db
+      - REDIS_SESSION_PORT=8099
+      - SESSION_SECRET=da_secret
+
+      - REDIS_ADMIN_HOST=redis-admin-db
+      - REDIS_ADMIN_PORT=8098
+
+      - MYSQL_HOST=edufi-user-db
+
+      - MYSQL_STUDENT_PORT=8097
+      - MYSQL_STUDENT_USERNAME=user
+      - MYSQL_STUDENT_PASSWORD=password
+
+      - MYSQL_TUTOR_PORT=8097
+      - MYSQL_TUTOR_USERNAME=user
+      - MYSQL_TUTOR_PASSWORD=password
+
+      - STUDENT_ADMIN_PATH=8150
+      - TUTOR_ADMIN_PATH=8010
+    restart: always
+volumes:
+  db-data:

@@ -4,7 +4,7 @@ const { promisify } = require("util");
 const mysql = require("mysql");
 
 const studentConnection = mysql.createConnection({
-  host: process.env.HOST,
+  host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_STUDENT_PORT,
   user: process.env.MYSQL_STUDENT_USERNAME,
   password: process.env.MYSQL_STUDENT_PASSWORD,
@@ -32,7 +32,7 @@ studentConnection.connect(function (err) {
 });
 
 const tutorConnection = mysql.createConnection({
-  host: process.env.HOST,
+  host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_TUTOR_PORT,
   user: process.env.MYSQL_TUTOR_USERNAME,
   password: process.env.MYSQL_TUTOR_PASSWORD,

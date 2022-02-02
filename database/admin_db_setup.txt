@@ -1,0 +1,2 @@
+HSET admin1 "password" 123
+HSET admin2 "password" 123
