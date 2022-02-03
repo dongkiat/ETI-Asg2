@@ -1,7 +1,7 @@
 const util = require("./util");
 const { promisify } = require("util");
 
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 const studentConnection = mysql.createConnection({
   host: process.env.MYSQL_HOST,
