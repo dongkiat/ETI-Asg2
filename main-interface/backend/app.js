@@ -1,8 +1,9 @@
 const util = require("./util");
 
 const url = require("url");
-const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
+const express = require("express");
 const session = require("express-session");
 
 const studentNavItems = {
@@ -22,6 +23,7 @@ module.exports = function (mysqlHandler, redisHandler) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(express.urlencoded({ extended: false }));
+  app.use(cors());
 
   app.set("view-engine", "ejs");
   app.use(express.static("styles"));
