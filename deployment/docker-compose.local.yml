@@ -35,7 +35,7 @@ services:
       - session-db
       - admin-db
     environment:
-      - HOST=10.31.11.11
+      - HOST=localhost
       - MAIN_PORT=8090
       - AUTH_DISABLED=false
 
