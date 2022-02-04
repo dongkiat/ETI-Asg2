@@ -37,7 +37,7 @@ then
 elif [ "$1" = "monitor" ]
 then
     echo "- Monitoring main-interface . ctrl+c to exit -"
-    if [ "$2" == "-all" ]
+    if [ "$2" = "-all" ]
     then
         docker logs --follow main-interface
     else

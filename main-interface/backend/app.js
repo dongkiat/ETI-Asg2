@@ -7,15 +7,21 @@ const express = require("express");
 const session = require("express-session");
 
 const studentNavItems = {
-  Modules: "8017/modules",
+  Students: "8103/students",
+  Modules: "8170/module",
+  "Module Management": "8114/",
   "Bidding Dashboard": "8220/biddingDashboard",
   "Ratings and Comments Dashboard": "8130/feedback",
+  "Marks Wallet": "8050/WalletHome.html",
+  "Class Exchange": "8140/",
+  "Social Feed": "8060/",
 };
 
 const tutorNavItems = {
-  Modules: "8017/modules",
-  "Marks Dashboard": "8120/api/V1/marksdashboard",
-  "Ratings and Comments Dashboard": "8190/dashboard",
+  Modules: "8170/module",
+  "Module Management": "8114/",
+  "Marks Dashboard": "8120/api/V1/marksDashboard",
+  "Ratings and Comments Dashboard": "8180/dashboard",
 };
 
 module.exports = function (mysqlHandler, redisHandler) {
