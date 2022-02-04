@@ -14,4 +14,8 @@ function getCurrentDateTime() {
   return formattedDateTime;
 }
 
-module.exports = { getCurrentDateTime };
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+module.exports = { getCurrentDateTime, sleep };

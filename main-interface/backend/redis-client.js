@@ -14,7 +14,7 @@ const redisSessionClient = redis.createClient({
     process.env.REDIS_SESSION_PORT,
   legacyMode: true,
   socket: {
-    reconnectStrategy: (retries) => Math.min(retries * 2000, 2000),
+    reconnectStrategy: (retries) => Math.min(retries * 1000, 60000),
   },
 });
 
