@@ -15,9 +15,9 @@ jobs:
 
       - name: Get Git Tag
         run: |
-          raw-tag="${GITHUB_REF/refs\/tags\//}"
-          new-tag="${raw-tag:1}"
-          echo "GIT_TAG=$new-tag" >> $GITHUB_ENV
+          tag="${GITHUB_REF/refs\/tags\//}"
+          tag="${tag:1}"
+          echo "GIT_TAG=$tag" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
