@@ -14,7 +14,7 @@ jobs:
 
       - name: Zip Deployment Folder as Artifact
         run: |
-          zip --junk-paths deployment ./deployment
+          zip --junk-paths deployment ./deployment/
 
       - name: Create Release
         id: create_release
