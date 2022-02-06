@@ -27,7 +27,7 @@ services:
     restart: always
   main-interface:
     container_name: main-interface
-    image: dongkiatnp/edufi-main-interface:0.3.0
+    image: dongkiatnp/edufi-main-interface:1.0.0
     ports:
       - 8090:8090
     depends_on:
