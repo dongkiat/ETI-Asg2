@@ -1,61 +1,91 @@
 # ETI Assignment 2
 
 ![Main-Interface CI](https://github.com/dongkiat/ETI-Asg2/actions/workflows/CI_Main.yml/badge.svg)
+![Docker CD](https://github.com/dongkiat/ETI-Asg2/actions/workflows/Docker.yml/badge.svg)
+![Release CD](https://github.com/dongkiat/ETI-Asg2/actions/workflows/Release.yml/badge.svg)
 
 ## Edufi Main Interface - Package 3.1
+
 > Lim Dong Kiat
 
 ## 🎯 Table of Contents
 
-1) System Architecture and Design
+1. System Architecture and Design
    - Overview
    - User Authentication
    - User Session and Authorization
    - Admin Authentication
    - Testability
-2) CI/CD
+2. CI/CD
    - Testing
    - Docker Build and Push
-3) Setup
+3. Setup
    - Scripts
    - Docker-compose
-4) Features
+4. Features
    - User Login
    - User Home Page
    - User Session
    - Admin Login
 
-
 ## 1) 💡 System Architecture and Design
 
 ### 🙆‍♂️ Overview
 
-### User Authentication
+---
 
-### User Session and Authorization
+### 🔐 User Authentication
 
-### Admin Authentication
+---
 
-### Testability
+### 👮 User Session and Authorization
 
-## 2) CI/CD
+---
 
-### Testing
+### 🔐 Admin Authentication
 
-### Docker Build and Push
+---
 
-## 3) Setup
+### ⚗️ Testability
 
-### Scripts
+---
 
-### Docker-compose
+## 2) 🔗 CI/CD
 
-## 4) Features
+### 🧪 Testing
 
-### User Login
+---
 
-### User Home Page
+### 🐳 Docker Build and Push
 
-### User Session
+---
 
-### Admin Login
+### 🚀 Release Creation
+
+---
+
+## 3) ⚙️ Setup
+
+### 🤖 Scripts
+
+---
+
+### 🐋 Docker-compose
+
+---
+
+## 4) 📚 Features, UI and UX
+
+### 🔑 User Login
+
+---
+
+### 🏡 User Home Page
+
+---
+
+### 🦉 User Session
+
+---
+
+### 🏛️ Admin Login
