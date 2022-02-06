@@ -25,7 +25,6 @@ var tutorConnection;
 async function connectStudent() {
   studentConnection = mysql.createConnection(studentOptions);
 
-  await util.sleep(1000);
   studentConnection.connect(function (err) {
     if (err) {
       console.error(
@@ -50,7 +49,6 @@ async function connectStudent() {
 async function connectTutor() {
   tutorConnection = mysql.createConnection(tutorOptions);
 
-  await util.sleep(1000);
   tutorConnection.connect(function (err) {
     if (err) {
       console.error(
