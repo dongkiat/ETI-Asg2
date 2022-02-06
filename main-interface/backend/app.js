@@ -15,6 +15,7 @@ const studentNavItems = {
   "Marks Wallet": "8050/WalletHome.html",
   "Class Exchange": "8140/",
   "Social Feed": "8060/",
+  Timetable: "8070/",
 };
 
 const tutorNavItems = {
@@ -22,6 +23,11 @@ const tutorNavItems = {
   "Module Management": "8114/",
   "Marks Dashboard": "8120/api/V1/marksDashboard",
   "Ratings and Comments Dashboard": "8180/dashboard",
+  Timetable: "8070/",
+};
+
+const corsOptions = {
+  credentials: true,
 };
 
 module.exports = function (mysqlHandler, redisHandler) {
@@ -29,7 +35,7 @@ module.exports = function (mysqlHandler, redisHandler) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(express.urlencoded({ extended: false }));
-  app.use(cors());
+  app.use(cors(corsOptions));
 
   app.set("view-engine", "ejs");
   app.use(express.static("styles"));
