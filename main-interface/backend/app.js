@@ -27,6 +27,7 @@ const tutorNavItems = {
 };
 
 const corsOptions = {
+  origin: ["http://10.31.11.11:8130", "http://10.31.11.11:8140"],
   credentials: true,
 };
 
