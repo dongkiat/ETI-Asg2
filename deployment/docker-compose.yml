@@ -39,12 +39,12 @@ services:
 
       - MYSQL_HOST=10.31.11.11
 
-      - MYSQL_STUDENT_PORT=3306
+      - MYSQL_STUDENT_PORT=8152
       - MYSQL_STUDENT_USERNAME=user
       - MYSQL_STUDENT_PASSWORD=password
-      - MYSQL_STUDENT_DB=students
+      - MYSQL_STUDENT_DB=a2_db
 
-      - MYSQL_TUTOR_PORT=8022
+      - MYSQL_TUTOR_PORT=8012
       - MYSQL_TUTOR_USERNAME=user
       - MYSQL_TUTOR_PASSWORD=password
       - MYSQL_TUTOR_DB=tutors
