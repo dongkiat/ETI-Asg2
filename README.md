@@ -34,7 +34,7 @@
 ### 🙆‍♂️ Overview
 ![architecture](https://user-images.githubusercontent.com/56468194/152674225-9bbec36d-577a-40f9-be9e-7c32eb77c31d.png)
 
-This package consists of one main server that runs on Node js with Express js. It will communicate with a redis admin database, as well as student and tutor databases supported by packages 3.2 and 3.3 for authentication. Mock student and tutor databases were created so that authentication can be tested locally, independent of the ones from the respective supposed packages. The server will also communicate with a redis session database so as to store the user session and use it to authorize access for users.
+This package consists of one main server that runs on Node js with Express js. It will communicate with a redis admin database, as well as student and tutor databases supported by packages 3.2 and 3.3 for authentication. Mock student and tutor databases were created so that authentication can be utilised locally, independent of the ones from the respective supposed packages. The server will also communicate with a redis session database so as to store the user session and use it to authorize access for users.
 
 ---
 
@@ -46,6 +46,10 @@ A mysql connection will be created with the respective user databases upon start
 ### 👮 User Session and Authorization
 After successful login and authentication, a user session will be created. The session and its details will be stored on the redis session database. The main content consists of the user ID and usertype. Each session has been set to expire after 20 minutes. A cookie with the name connect.sid will also be created in the http header and it will only contain the session ID. This cookie is vital as it will allow for the browser to retrieve the right session details from the session datatbase. The presence of a session can then be used to carry out authorization, such as access to the home page, as well as for the other packages to use.
 
+The session is handled by the express session library and by default, it will store the session in its own local memory store. The problem with this is that when the server stops or restarts, all the memory will be lost, causing all existing sessions to be destroyed. The use of JWT (JSON Web Token) was initially considered to handle the user sessions. However, the problem with JWT is that it is self-contained. If a user decides to logout, there is no direct way to invalidate/destroy the token and end the session. Workarounds have to be used, which is not very elegant. An alternative would be to use a regular database to store the sessions. However, this is slow and clunky to use, and sessions are temporal and should expire after a set time.
+
+As a result, Redis was selected to store the sessions. Redis is an in-memory data structure, allowing for extremely fast speeds and high performance. It also allows for items to expire and can persist data if one chooses to do so. There is also Redis clusters which makes redundancy possible, thus reducing the risks of server side sessions. Furthermore, migration can also be done with zero downtime.
+
 ---
 
 ### 🔐 Admin Authentication
@@ -54,7 +58,7 @@ Validation wise, it is similar to the user authentication. However, the differen
 ---
 
 ### ⚗️ Testability
-Testing is done using Jest and Supertest libraries. To make the code testable, the code itself thus has to be structured in such a way that it can accomodate the test scripts. The main change is the use of dependency injection. First, the code for interacting with the databases are separated and grouped into their own modules. Then, the app itself is turned into a module which accepts the database connection objects as arguments. So instead of the main app calling the database connection objects, the connection objects are passed into the app as arguments instead. This allows for the databases to be mocked, as mock databases can now be passed into the main app during testing.
+Testing is done using Jest and Supertest libraries. To make the code testable, the code itself thus has to be structured in such a way that it can accomodate the test scripts. The main change is the use of dependency injection. First, the code for interacting with the databases are separated and grouped into their own modules. Then, the app itself is turned into a module which accepts the database connection objects as arguments. So instead of the main app calling the database connection objects, the database connection objects are passed into the app module as arguments instead. This allows for the databases to be mocked, and theses mock databases can now be passed into the main app during testing. The user session is also mocked during testing as well by using Session File Store instead of Redis as the session storage. The use of such mocks allows for even more scenerios to be tested.
 
 ---
 
@@ -103,22 +107,33 @@ Usage example:
 2. monitor: `deploy monitor`
 3. shutdown: `deploy down -mock`
 
+User page url: http://10.31.11.11:8090/  
+Admin page url: http://10.31.11.11:8090/admin
+
+Docker Main Interface: https://hub.docker.com/r/dongkiatnp/edufi-main-interface  
+Docker User DB (Mocking purposes only): https://hub.docker.com/r/dongkiatnp/edufi-user-db  
+The Redis images uses the official ones.
+
 ---
 
 ### 🐋 Docker-compose
-The scripts will still setup the containers via running docker-compose commands. Although technically with scripts, using the standard docker run is viable. However, personally, docker-compose seems more organized and it satisfies all the necessary needs anyways.
+The scripts will still setup the containers via running docker-compose commands. Although technically with scripts, using the standard docker run is viable. However, personally, docker-compose seems more organized and it satisfies all the necessary needs anyways. There are 4 docker compose files, with each corresponding to one of the options as shown in the script above (default, mock, test, local)
 
 ---
 
 ## 4) 📚 Features, UI and UX
 
+Good UX and UI is established through the use of a minimilistic design and clear visual hierachy. These reduces clutter and distractions, and make interface interactions an efficient and streamlined experience. When logging in, informative and clear feedback is relayed through the different dedicated error messages. For example, if the user enters wrong credentials, the system will display if it was a wrong user ID, wrong password or a system related error, instead of just one generic error message. Upon logging in, the home page will display all the navigational links in a clear and defined manner in the center of the page, allowing for users to quickly get to the other pages without any hassle or foraging. Subtle animations were then added to many of the page components to make them look better and hint that they can be interacted with. These greatly improves the page interaction and provides a more vibrant user experience overall.
+
 ### 🔑 User Login
 <img src="https://user-images.githubusercontent.com/56468194/152674286-53f6c212-1739-4138-978c-fff0d458aeae.png" width="70%">
 
 <img src="https://user-images.githubusercontent.com/56468194/152674293-83fb4105-dbc7-43a4-83c9-95a24d8291b8.png" width="45%"> <img src="https://user-images.githubusercontent.com/56468194/152674294-a87ed5b0-a0d6-44dd-b5aa-da8354528545.png" width="45.5%">
+
 Login when user ID or password invalid.  
 
 <img src="https://user-images.githubusercontent.com/56468194/152674297-5920690f-747f-4bca-898b-a43535460b68.png" width="70%">
+
 Login when system error detected.
 
 ---
@@ -129,6 +144,7 @@ Login when system error detected.
 Student home page.  
 
 <img src="https://user-images.githubusercontent.com/56468194/152674314-66186e50-645d-48a7-8c00-a895397a9c22.png" width="70%">
+
 Tutor home page.
 
 ---
@@ -142,7 +158,9 @@ As the login and home page uses the same URL, which page a user is directed to w
 <img src="https://user-images.githubusercontent.com/56468194/152674480-5c400bdc-d37c-4c06-bed8-8e0774fe4cc9.png" width="70%">
 
 <img src="https://user-images.githubusercontent.com/56468194/152674499-056b877a-b843-48d6-9ab0-c577c0705dcb.png" width="47%"> <img src="https://user-images.githubusercontent.com/56468194/152674500-2218a93d-bfd2-48dc-b203-9b1b156f64b7.png" width="43.5%">
+
 Login when user ID or password invalid.  
 
 <img src="https://user-images.githubusercontent.com/56468194/152674494-9536eca9-4f47-4719-ba8b-91dfd9df3853.png" width="70%">
+
 Login when system error detected.
